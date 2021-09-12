@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
+    'plugin:@next/next/recommended',
     'standard'
   ],
   parserOptions: {
@@ -15,10 +16,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: [
-    'react'
-  ],
+  plugins: ['react'],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
+    'react/prop-types': 'off'
   },
   globals: {
     React: true
