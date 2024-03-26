@@ -1,12 +1,32 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
-module.exports = {
-  purge: ['./pages/**/*.js', './components/**/*.js', './layouts/**/*.js'],
-  darkMode: false, // or 'media' or 'class'
+import { config } from './lib/server/config'
+import { FONTS_SANS, FONTS_SERIF } from './consts'
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  content: ['./pages/**/*.js', './components/**/*.js', './layouts/**/*.js'],
+  darkMode: 'class',
   theme: {
-    extend: {},
-    fontFamily: {
-      sans: ['Inter', ...fontFamily.sans],
-      noEmoji: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+    extend: {
+      colors: {
+        day: {
+          DEFAULT: config.lightBackground || '#ffffff'
+        },
+        night: {
+          DEFAULT: config.darkBackground || '#111827'
+        }
+      },
+      fontFamily: {
+        sans: FONTS_SANS,
+        serif: FONTS_SERIF,
+        noEmoji: [
+          '"IBM Plex Sans"',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'sans-serif'
+        ]
+      }
     }
   },
   variants: {

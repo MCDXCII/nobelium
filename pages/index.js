@@ -1,35 +1,35 @@
+import { clientConfig } from '@/lib/server/config'
+
 import Container from '@/components/Container'
 import BlogPost from '@/components/BlogPost'
 import Pagination from '@/components/Pagination'
 import { getAllPosts } from '@/lib/notion'
-import BLOG from '@/blog.config'
+import { useConfig } from '@/lib/config'
 
 export async function getStaticProps () {
-  const posts = await getAllPosts()
-  const postsToShow = posts
-    .filter(post => post.status === 'Published' && post.type === 'Post')
-    .slice(0, BLOG.postsPerPage)
+  const posts = await getAllPosts({ includePages: false })
+  const postsToShow = posts.slice(0, clientConfig.postsPerPage)
   const totalPosts = posts.length
-  const totalPages = Math.ceil(totalPosts / BLOG.postsPerPage)
+  const showNext = totalPosts > clientConfig.postsPerPage
   return {
     props: {
       page: 1, // current page is 1
-      totalPages,
-      postsToShow
+      postsToShow,
+      showNext
     },
     revalidate: 1
   }
 }
 
-const blog = ({ postsToShow, page, totalPages }) => {
+export default function Blog ({ postsToShow, page, showNext }) {
+  const { title, description } = useConfig()
+
   return (
-    <Container title={BLOG.title} description={BLOG.description}>
+    <Container title={title} description={description}>
       {postsToShow.map(post => (
         <BlogPost key={post.id} post={post} />
       ))}
-      {totalPages > 1 && <Pagination page={page} totalPages={totalPages} />}
+      {showNext && <Pagination page={page} showNext={showNext} />}
     </Container>
   )
 }
-
-export default blog

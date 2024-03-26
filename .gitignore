@@ -17,6 +17,9 @@
 
 # misc
 .DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
 *.pem
 
 # debug
@@ -32,3 +35,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+public/robots.txt
+public/sitemap.xml
+.env*.local
